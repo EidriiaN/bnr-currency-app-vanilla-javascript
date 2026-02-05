@@ -26,6 +26,17 @@ const BNR_ARCHIVE_URL = IS_LOCAL
   : "/api/bnr/files/xml/years/nbrfxrates";
 const CURRENCIES = ["EUR", "USD", "GBP"];
 
+// ===========================================
+// DEBUG INFO
+// ===========================================
+console.log("=== BNR App Debug Info ===");
+console.log("Hostname:", window.location.hostname);
+console.log("Protocol:", window.location.protocol);
+console.log("IS_LOCAL:", IS_LOCAL);
+console.log("BNR_URL:", BNR_URL);
+console.log("BNR_ARCHIVE_URL:", BNR_ARCHIVE_URL);
+console.log("==========================");
+
 const CHART_COLORS = {
   EUR: { border: "#2563eb", background: "rgba(37, 99, 235, 0.1)" },
   USD: { border: "#22c55e", background: "rgba(34, 197, 94, 0.1)" },
@@ -123,12 +134,14 @@ function getRandomColor(currency) {
  */
 async function fetchBNRData() {
   showLoading(true);
+  console.log("=== fetchBNRData started ===");
 
   try {
     // Pentru testare locală, folosim date simulate
     // În producție, s-ar folosi un proxy server sau date stocate
     const currentYear = new Date().getFullYear();
     const years = [currentYear, currentYear - 1];
+    console.log("Years to fetch:", years);
 
     let allData = [];
 
@@ -136,18 +149,26 @@ async function fetchBNRData() {
     for (const year of years) {
       try {
         const url = `${BNR_ARCHIVE_URL}${year}.xml`;
+        console.log(`Fetching: ${url}`);
         const response = await fetch(url);
+        console.log(`Response for ${year}: status=${response.status}, ok=${response.ok}`);
 
         if (response.ok) {
           const xmlText = await response.text();
+          console.log(`XML for ${year}: ${xmlText.substring(0, 200)}...`);
           const yearData = parseXMLData(xmlText);
+          console.log(`Parsed ${yearData.length} records for ${year}`);
           allData = [...allData, ...yearData];
+        } else {
+          console.warn(`Failed to fetch ${year}: HTTP ${response.status}`);
         }
       } catch (err) {
-        console.log(`Nu s-au putut prelua datele pentru ${year}:`, err);
+        console.error(`Error fetching ${year}:`, err);
       }
     }
 
+    console.log(`Total records fetched: ${allData.length}`);
+    
     // Dacă nu avem date de la BNR, folosim date simulate pentru demo
     if (allData.length === 0) {
       console.log("Se folosesc date simulate pentru demonstrație");
