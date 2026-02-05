@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Analiza Cursului Valutar BNR</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+  </head>
+  <body>
+    <header>
+      <h1>📊 Analiza Cursului Valutar BNR</h1>
+      <p>Aplicație pentru vizualizarea și analiza cursurilor valutare EUR, USD, GBP</p>
+    </header>
+
+    <main>
+      <section id="controls">
+        <div class="control-group">
+          <label for="currency-select">Selectează valuta:</label>
+          <select id="currency-select" multiple>
+            <option value="EUR" selected>EUR - Euro</option>
+            <option value="USD" selected>USD - Dolar American</option>
+            <option value="GBP" selected>GBP - Liră Sterlină</option>
+          </select>
+        </div>
+        <div class="control-group">
+          <label for="date-start">Data început:</label>
+          <input type="date" id="date-start" />
+        </div>
+        <div class="control-group">
+          <label for="date-end">Data sfârșit:</label>
+          <input type="date" id="date-end" />
+        </div>
+        <button id="btn-fetch" class="btn-primary">🔄 Încarcă Date</button>
+        <button id="btn-export" class="btn-secondary">📥 Exportă CSV</button>
+      </section>
+
+      <section id="stats-container">
+        <h2>📈 Statistici</h2>
+        <div id="stats-cards" class="stats-grid">
+          <!-- Stats will be populated dynamically -->
+        </div>
+      </section>
+
+      <section id="chart-container">
+        <h2>📉 Evoluția Cursului Valutar</h2>
+        <canvas id="currency-chart"></canvas>
+      </section>
+
+      <section id="table-container">
+        <h2>📋 Tabel Date</h2>
+        <div class="table-controls">
+          <input type="text" id="table-search" placeholder="Caută în tabel..." />
+          <select id="table-sort">
+            <option value="date-desc">Data (descrescător)</option>
+            <option value="date-asc">Data (crescător)</option>
+            <option value="value-desc">Valoare (descrescător)</option>
+            <option value="value-asc">Valoare (crescător)</option>
+          </select>
+        </div>
+        <div class="table-wrapper">
+          <table id="data-table">
+            <thead>
+              <tr>
+                <th data-sort="date">Data</th>
+                <th data-sort="currency">Valuta</th>
+                <th data-sort="value">Curs (RON)</th>
+                <th data-sort="change">Variație</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Data will be populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="comparison-container">
+        <h2>🔍 Comparație Valute</h2>
+        <div class="comparison-controls">
+          <label>Selectează valutele pentru comparație:</label>
+          <div class="currency-buttons" id="comparison-currency-buttons">
+            <button class="currency-btn active" data-currency="EUR">EUR</button>
+            <button class="currency-btn active" data-currency="USD">USD</button>
+            <button class="currency-btn active" data-currency="GBP">GBP</button>
+          </div>
+        </div>
+        <div id="comparison-chart-wrapper">
+          <canvas id="comparison-chart"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Date preluate de la <a href="https://www.bnr.ro" target="_blank">Banca Națională a României</a></p>
+      <p>© 2026 - Proiect PAAI - Analiza Cursului Valutar</p>
+    </footer>
+
+    <div id="loading-overlay" class="hidden">
+      <div class="spinner"></div>
+      <p>Se încarcă datele...</p>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
