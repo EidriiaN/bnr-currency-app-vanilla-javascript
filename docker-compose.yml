@@ -1,7 +1,6 @@
 services:
   bnr-app:
     build: .
-    image: bnr-currency-app:latest
     container_name: bnr-currency-app
     ports:
       - "8080:80"
