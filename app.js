@@ -13,9 +13,17 @@
 // ===========================================
 // CONSTANTE ȘI CONFIGURARE
 // ===========================================
-const CORS_PROXY = "https://corsproxy.io/?";
-const BNR_URL = CORS_PROXY + "https://www.bnr.ro/nbrfxrates.xml";
-const BNR_ARCHIVE_URL = CORS_PROXY + "https://www.bnr.ro/files/xml/years/nbrfxrates";
+// Auto-detect: localhost uses public CORS proxy, production uses nginx proxy
+const IS_LOCAL = window.location.hostname === "localhost" || 
+                 window.location.hostname === "127.0.0.1" ||
+                 window.location.protocol === "file:";
+
+const BNR_URL = IS_LOCAL 
+  ? "https://corsproxy.io/?https://www.bnr.ro/nbrfxrates.xml" 
+  : "/api/bnr/nbrfxrates.xml";
+const BNR_ARCHIVE_URL = IS_LOCAL 
+  ? "https://corsproxy.io/?https://www.bnr.ro/files/xml/years/nbrfxrates" 
+  : "/api/bnr/files/xml/years/nbrfxrates";
 const CURRENCIES = ["EUR", "USD", "GBP"];
 
 const CHART_COLORS = {
