@@ -13,12 +13,9 @@
 // ===========================================
 // CONSTANTE ȘI CONFIGURARE
 // ===========================================
-// For local development, set IS_LOCAL_DEV to true to use CORS proxy
-// For production (Docker/Portainer), set to false to use nginx proxy
-const IS_LOCAL_DEV = false;
-
-const BNR_URL = IS_LOCAL_DEV ? "https://corsproxy.io/?https://www.bnr.ro/nbrfxrates.xml" : "/api/bnr/nbrfxrates.xml";
-const BNR_ARCHIVE_URL = IS_LOCAL_DEV ? "https://corsproxy.io/?https://www.bnr.ro/files/xml/years/nbrfxrates" : "/api/bnr/files/xml/years/nbrfxrates";
+const CORS_PROXY = "https://corsproxy.io/?";
+const BNR_URL = CORS_PROXY + "https://www.bnr.ro/nbrfxrates.xml";
+const BNR_ARCHIVE_URL = CORS_PROXY + "https://www.bnr.ro/files/xml/years/nbrfxrates";
 const CURRENCIES = ["EUR", "USD", "GBP"];
 
 const CHART_COLORS = {
